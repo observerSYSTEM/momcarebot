@@ -1,0 +1,50 @@
+name: MomCareBot Reminders
+
+on:
+  schedule:
+    # GitHub cron is UTC.
+
+    # Monthly: 1st day of month @ 09:00 UTC
+    - cron: "0 9 1 * *"
+
+    # Weekly call: Sunday @ 18:00 UTC
+    - cron: "0 18 * * 0"
+
+    # Emergency savings: Friday @ 19:00 UTC
+    - cron: "0 19 * * 5"
+
+  workflow_dispatch: {}
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run monthly job (if 1st)
+        if: contains(github.event.schedule, '0 9 1 * *')
+        run: python -m app.run_once monthly
+
+      - name: Run weekly call job (if Sunday)
+        if: contains(github.event.schedule, '0 18 * * 0')
+        run: python -m app.run_once weekly
+
+      - name: Run savings job (if Friday)
+        if: contains(github.event.schedule, '0 19 * * 5')
+        run: python -m app.run_once savings
