@@ -43,8 +43,9 @@ jobs:
 
       - name: Run weekly call job (if Sunday)
         if: contains(github.event.schedule, '0 18 * * 0')
-        run: python -m app.run_once weekly
+        run: python -m app.run_weekly_call
 
       - name: Run savings job (if Friday)
         if: contains(github.event.schedule, '0 19 * * 5')
-        run: python -m app.run_once savings
+        run: python -m app.run_savings
+
