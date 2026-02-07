@@ -2,8 +2,6 @@ name: MomCareBot Reminders
 
 on:
   schedule:
-    # GitHub cron is UTC.
-
     # Monthly: 1st day of month @ 09:00 UTC
     - cron: "0 9 1 * *"
 
@@ -39,7 +37,7 @@ jobs:
 
       - name: Run monthly job (if 1st)
         if: contains(github.event.schedule, '0 9 1 * *')
-        run: python -m app.run_once monthly
+        run: python -m app.run_once_monthly
 
       - name: Run weekly call job (if Sunday)
         if: contains(github.event.schedule, '0 18 * * 0')
@@ -48,4 +46,3 @@ jobs:
       - name: Run savings job (if Friday)
         if: contains(github.event.schedule, '0 19 * * 5')
         run: python -m app.run_savings
-
