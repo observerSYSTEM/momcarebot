@@ -33,3 +33,27 @@ This tool turns responsibility into a structured system.
 
 ## Project structure
 
+app/
+main.py
+scheduler.py
+telegram.py
+plan_reader.py
+pdf_builder.py
+logger.py
+
+
+## Setup
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+
+
+TELEGRAM_BOT_TOKEN=your_token_here
+TELEGRAM_CHAT_ID=your_chat_id_here
+
+
+Run:
+
+python -m app.main

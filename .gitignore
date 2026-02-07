@@ -1,0 +1,17 @@
+# virtual environment
+venv/
+
+# environment secrets
+.env
+
+# python cache
+__pycache__/
+*.pyc
+
+# generated files
+out/
+data/logs.csv
+
+# OS junk
+.DS_Store
+Thumbs.db
